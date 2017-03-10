@@ -15,6 +15,7 @@ const reportingRules = [
   'no-weak-types',
   'no-primitive-constructor-types',
   'object-type-delimiter',
+  'require-export-type',
   'require-parameter-type',
   'require-return-type',
   'require-valid-file-annotation',

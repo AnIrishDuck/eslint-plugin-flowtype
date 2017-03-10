@@ -3,6 +3,7 @@ import {checkFlowFileAnnotation} from './utilities';
 import defineFlowType from './rules/defineFlowType';
 import genericSpacing from './rules/genericSpacing';
 import noWeakTypes from './rules/noWeakTypes';
+import requireExportType from './rules/requireExportType';
 import requireParameterType from './rules/requireParameterType';
 import requireReturnType from './rules/requireReturnType';
 import requireValidFileAnnotation from './rules/requireValidFileAnnotation';
@@ -32,6 +33,7 @@ const rules = {
   'no-primitive-constructor-types': noPrimitiveConstructorTypes,
   'no-weak-types': noWeakTypes,
   'object-type-delimiter': objectTypeDelimiter,
+  'require-export-type': requireExportType,
   'require-parameter-type': requireParameterType,
   'require-return-type': requireReturnType,
   'require-valid-file-annotation': requireValidFileAnnotation,

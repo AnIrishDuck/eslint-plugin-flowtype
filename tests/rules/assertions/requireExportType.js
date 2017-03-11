@@ -4,7 +4,7 @@ export default {
       code: 'export let foo = (bar) => bar * 2',
       errors: [
         {
-          message: 'Missing "foo" export type annotation.'
+          message: 'Missing "foo" type annotation on export.'
         }
       ]
     },
@@ -12,7 +12,7 @@ export default {
       code: 'export let foo = 2',
       errors: [
         {
-          message: 'Missing "foo" export type annotation.'
+          message: 'Missing "foo" type annotation on export.'
         }
       ]
     },
@@ -20,13 +20,13 @@ export default {
       code: 'export function foo (n, s) { return n * 2 }',
       errors: [
         {
-          message: 'Missing return type annotation on exported function.'
+          message: 'Missing return type annotation on export.'
         },
         {
-          message: 'Missing "n" parameter type annotation on exported function.'
+          message: 'Missing "n" parameter type annotation on export.'
         },
         {
-          message: 'Missing "s" parameter type annotation on exported function.'
+          message: 'Missing "s" parameter type annotation on export.'
         }
       ]
     },
@@ -34,7 +34,7 @@ export default {
       code: 'export function foo (n, v: string): number { return n * 2 }',
       errors: [
         {
-          message: 'Missing "n" parameter type annotation on exported function.'
+          message: 'Missing "n" parameter type annotation on export.'
         }
       ]
     },
@@ -42,7 +42,37 @@ export default {
       code: 'export function foo (n: number) { return n * 2 }',
       errors: [
         {
-          message: 'Missing return type annotation on exported function.'
+          message: 'Missing return type annotation on export.'
+        }
+      ]
+    },
+    {
+      code: 'let foo = 10\nexport { foo }',
+      errors: [
+        {
+          line: 1,
+          message: 'Missing "foo" type annotation, required by export below.'
+        },
+        {
+          line: 2,
+          message: 'Missing or incomplete type annotation on prior "foo" declaration at line 1.'
+        }
+      ]
+    },
+    {
+      code: 'function foo (n) { return n * 2 }\nlet bar = 10\nexport { foo }',
+      errors: [
+        {
+          line: 1,
+          message: 'Missing return type annotation, required by export below.'
+        },
+        {
+          line: 1,
+          message: 'Missing "n" parameter type annotation, required by export below.'
+        },
+        {
+          line: 3,
+          message: 'Missing or incomplete type annotation on prior "foo" declaration at line 1.'
         }
       ]
     }
@@ -64,6 +94,12 @@ export default {
           excludeParameterMatch: '^_'
         }
       ]
+    },
+    {
+      code: 'let foo: number = 10\nlet bar = 20\nexport { foo }'
+    },
+    {
+      code: 'function foo (n: number): number { return n * 2 }\nlet bar = 10\nexport { foo }'
     }
   ]
 };

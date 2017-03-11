@@ -3,27 +3,24 @@ import {
     quoteName
 } from './../../utilities';
 
-export default function (context) {
-  return (variableDeclaration) => {
-    const isExport = variableDeclaration.parent.type === 'ExportNamedDeclaration';
+export default function (context, variableDeclarator, finishMessage) {
+  const identifierNode = _.get(variableDeclarator, 'id');
 
-    if (isExport) {
-      _.forEach(variableDeclaration.declarations, (variableDeclarator) => {
-        const identifierNode = _.get(variableDeclarator, 'id');
-        const identifierName = _.get(identifierNode, 'name');
+  const typeAnnotation = _.get(identifierNode, 'typeAnnotation');
 
-        const typeAnnotation = _.get(identifierNode, 'typeAnnotation');
+  if (typeAnnotation) {
+    return true;
+  } else {
+    const identifierName = identifierNode.name;
 
-        if (!typeAnnotation) {
-          context.report({
-            data: {
-              name: quoteName(identifierName)
-            },
-            message: 'Missing {{name}}export type annotation.',
-            node: identifierNode
-          });
-        }
-      });
-    }
-  };
+    context.report({
+      data: {
+        name: quoteName(identifierName)
+      },
+      message: finishMessage('Missing {{name}}type annotation'),
+      node: identifierNode
+    });
+
+    return false;
+  }
 }

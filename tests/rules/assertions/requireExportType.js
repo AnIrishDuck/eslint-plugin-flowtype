@@ -79,6 +79,12 @@ export default {
   ],
   valid: [
     {
+      code: 'export * from \'./test\''
+    },
+    {
+      code: 'export { foo, bar } from \'./test\''
+    },
+    {
       code: 'export let foo: (number) => number = (bar) => bar * 2'
     },
     {

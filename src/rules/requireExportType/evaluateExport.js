@@ -1,4 +1,5 @@
 import evaluateFunction from './evaluateFunction';
+import evaluateLiteral from './evaluateLiteral';
 import evaluateVariable from './evaluateVariable';
 
 const exported = (prefix) => {
@@ -7,6 +8,7 @@ const exported = (prefix) => {
 
 const evaluators = {
   FunctionDeclaration: evaluateFunction,
+  Literal: evaluateLiteral,
   VariableDeclaration: (context, node, finishMessage) => {
     node.declarations.forEach((declarator) => {
       evaluateVariable(context, declarator, finishMessage);

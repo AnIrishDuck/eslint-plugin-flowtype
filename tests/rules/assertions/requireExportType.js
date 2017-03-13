@@ -112,6 +112,14 @@ export default {
           message: 'Missing or incomplete type annotation on prior "foo" declaration at line 1.'
         }
       ]
+    },
+    {
+      code: 'export default 20',
+      errors: [
+        {
+          message: 'Missing type annotation on default export.'
+        }
+      ]
     }
   ],
   valid: [
@@ -146,6 +154,9 @@ export default {
     },
     {
       code: 'function foo (n: number): number { return n * 2 }\nlet bar = 10\nexport { foo }'
+    },
+    {
+      code: 'export default (20: number)'
     }
   ]
 };

@@ -84,6 +84,19 @@ export default {
       ]
     },
     {
+      code: 'let foo = 10\nexport { foo as baz }',
+      errors: [
+        {
+          line: 1,
+          message: 'Missing "foo" type annotation, required by export below.'
+        },
+        {
+          line: 2,
+          message: 'Missing or incomplete type annotation on prior "foo" declaration at line 1.'
+        }
+      ]
+    },
+    {
       code: 'function foo (n) { return n * 2 }\nlet bar = 10\nexport { foo }',
       errors: [
         {

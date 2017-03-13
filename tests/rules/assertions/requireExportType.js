@@ -1,18 +1,10 @@
 export default {
   invalid: [
     {
-      code: 'export let foo = (bar) => bar * 2',
-      errors: [
-        {
-          message: 'Missing "foo" type annotation on export.'
-        }
-      ]
-    },
-    {
       code: 'export let foo = 2',
       errors: [
         {
-          message: 'Missing "foo" type annotation on export.'
+          message: 'Missing type annotation on export.'
         }
       ]
     },
@@ -20,7 +12,7 @@ export default {
       code: 'export const foo = 2',
       errors: [
         {
-          message: 'Missing "foo" type annotation on export.'
+          message: 'Missing type annotation on export.'
         }
       ]
     },
@@ -28,7 +20,7 @@ export default {
       code: 'export let foo: number = 3, bar = \'baz\'',
       errors: [
         {
-          message: 'Missing "bar" type annotation on export.'
+          message: 'Missing type annotation on export.'
         }
       ]
     },
@@ -75,7 +67,7 @@ export default {
       errors: [
         {
           line: 1,
-          message: 'Missing "foo" type annotation, required by export below.'
+          message: 'Missing type annotation, required by export below.'
         },
         {
           line: 2,
@@ -88,7 +80,7 @@ export default {
       errors: [
         {
           line: 1,
-          message: 'Missing "foo" type annotation, required by export below.'
+          message: 'Missing type annotation, required by export below.'
         },
         {
           line: 2,
@@ -117,7 +109,7 @@ export default {
       code: 'export default 20',
       errors: [
         {
-          message: 'Missing type annotation on default export.'
+          message: 'Missing type annotation on export.'
         }
       ]
     },
@@ -126,6 +118,19 @@ export default {
       errors: [
         {
           message: 'Missing return type annotation on export.'
+        }
+      ]
+    },
+    {
+      code: 'let foo = (n): number => n * 2\nexport { foo }',
+      errors: [
+        {
+          line: 1,
+          message: 'Missing "n" parameter type annotation, required by export below.'
+        },
+        {
+          line: 2,
+          message: 'Missing or incomplete type annotation on prior "foo" declaration at line 1.'
         }
       ]
     }
@@ -168,6 +173,9 @@ export default {
     },
     {
       code: 'export default (abc: number): number => abc * 20'
+    },
+    {
+      code: 'export let testing = (abc: number): number => abc * 20'
     }
   ]
 };

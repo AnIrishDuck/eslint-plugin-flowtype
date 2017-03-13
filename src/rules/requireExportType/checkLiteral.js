@@ -1,11 +1,11 @@
-export default function (context, literalNode) {
+export default function (context, literalNode, finishMessage) {
   const typeAnnotation = literalNode.typeAnnotation;
 
   if (typeAnnotation) {
     return true;
   } else {
     context.report({
-      message: 'Missing type annotation on default export.',
+      message: finishMessage('Missing type annotation'),
       node: literalNode
     });
 

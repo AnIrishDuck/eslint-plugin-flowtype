@@ -6,13 +6,16 @@ const exported = (prefix) => {
   return prefix + ' on export.';
 };
 
+const ignore = () => {};
+
 const checkers = {
   ArrowFunctionExpression: checkFunction,
   // TODO - classes are a more complex case, but we'll get there
-  ClassDeclaration: () => {},
+  ClassDeclaration: ignore,
   FunctionDeclaration: checkFunction,
+  InterfaceDeclaration: ignore,
   Literal: checkLiteral,
-  TypeAlias: () => {},
+  TypeAlias: ignore,
   VariableDeclaration: (context, node, finishMessage) => {
     node.declarations.forEach((declarator) => {
       checkVariable(context, declarator, finishMessage);

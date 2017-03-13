@@ -190,6 +190,12 @@ export default {
     },
     {
       code: 'export default class Testing { }'
+    },
+    {
+      code: 'export type Foo = { bar: number }'
+    },
+    {
+      code: 'export type Foo = Bar'
     }
   ]
 };

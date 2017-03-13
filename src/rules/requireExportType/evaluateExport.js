@@ -12,6 +12,7 @@ const checkers = {
   ClassDeclaration: () => {},
   FunctionDeclaration: checkFunction,
   Literal: checkLiteral,
+  TypeAlias: () => {},
   VariableDeclaration: (context, node, finishMessage) => {
     node.declarations.forEach((declarator) => {
       checkVariable(context, declarator, finishMessage);

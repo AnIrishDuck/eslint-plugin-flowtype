@@ -39,6 +39,14 @@ export default {
       ]
     },
     {
+      code: 'export default function foo (n, v: string): number { return n * 2 }',
+      errors: [
+        {
+          message: 'Missing "n" parameter type annotation on export.'
+        }
+      ]
+    },
+    {
       code: 'export function foo (n: number) { return n * 2 }',
       errors: [
         {

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import {isFlowFile, quoteName} from './../../utilities';
+import evaluateExport from './evaluateExport';
 import evaluateFunction from './evaluateFunction';
 import evaluateVariable from './evaluateVariable';
 
@@ -9,10 +10,6 @@ const isExport = (node) => {
 
 const requiredBelow = (prefix) => {
   return prefix + ', required by export below.';
-};
-
-const exported = (prefix) => {
-  return prefix + ' on export.';
 };
 
 const reportExport = function (context, specifier, priorLine) {
@@ -26,15 +23,6 @@ const reportExport = function (context, specifier, priorLine) {
   });
 };
 
-const evaluators = {
-  FunctionDeclaration: evaluateFunction,
-  VariableDeclaration: (context, node, finishMessage) => {
-    node.declarations.forEach((declarator) => {
-      evaluateVariable(context, declarator, finishMessage);
-    });
-  }
-};
-
 export default (context) => {
   const checkThisFile = !_.get(context, 'settings.flowtype.onlyFilesWithFlowAnnotation') || isFlowFile(context);
 
@@ -43,17 +31,8 @@ export default (context) => {
   }
 
   return {
-    ExportNamedDeclaration: (exportNode) => {
-      const declaration = exportNode.declaration;
-
-      if (declaration) {
-        const evaluate = evaluators[declaration.type];
-
-        if (evaluate) {
-          evaluate(context, exportNode.declaration, exported);
-        }
-      }
-    },
+    ExportDefaultDeclaration: evaluateExport(context),
+    ExportNamedDeclaration: evaluateExport(context),
     Program: (programNode) => {
       const exportNodes = programNode.body.filter(isExport);
       const nodePairs = exportNodes.map((node) => {

@@ -8,6 +8,8 @@ const exported = (prefix) => {
 
 const checkers = {
   ArrowFunctionExpression: checkFunction,
+  // TODO - classes are a more complex case, but we'll get there
+  ClassDeclaration: () => {},
   FunctionDeclaration: checkFunction,
   Literal: checkLiteral,
   VariableDeclaration: (context, node, finishMessage) => {

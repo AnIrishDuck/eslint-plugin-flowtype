@@ -187,6 +187,9 @@ export default {
     },
     {
       code: 'export let testing = (abc: number): number => abc * 20'
+    },
+    {
+      code: 'export default class Testing { }'
     }
   ]
 };

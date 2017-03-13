@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import {quoteName} from './../../utilities';
-import evaluateFunction from './evaluateFunction';
-import evaluateVariable from './evaluateVariable';
+import checkFunction from './checkFunction';
+import checkVariable from './checkVariable';
 
 const isExport = (node) => {
   return node.type === 'ExportNamedDeclaration';
@@ -39,7 +39,7 @@ export default function (context) {
           const specifier = exportMap.get(name);
 
           if (specifier) {
-            if (!evaluateVariable(context, declarator, requiredBelow)) {
+            if (!checkVariable(context, declarator, requiredBelow)) {
               reportExport(context, specifier, node.loc.start.line);
             }
           }
@@ -48,7 +48,7 @@ export default function (context) {
         const name = node.id ? node.id.name : null;
         const specifier = exportMap.get(name);
 
-        if (specifier && !evaluateFunction(context, node, requiredBelow)) {
+        if (specifier && !checkFunction(context, node, requiredBelow)) {
           reportExport(context, specifier, node.loc.start.line);
         }
       }

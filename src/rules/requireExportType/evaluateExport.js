@@ -1,17 +1,17 @@
-import evaluateFunction from './evaluateFunction';
-import evaluateLiteral from './evaluateLiteral';
-import evaluateVariable from './evaluateVariable';
+import checkFunction from './checkFunction';
+import checkLiteral from './checkLiteral';
+import checkVariable from './checkVariable';
 
 const exported = (prefix) => {
   return prefix + ' on export.';
 };
 
-const evaluators = {
-  FunctionDeclaration: evaluateFunction,
-  Literal: evaluateLiteral,
+const checkers = {
+  FunctionDeclaration: checkFunction,
+  Literal: checkLiteral,
   VariableDeclaration: (context, node, finishMessage) => {
     node.declarations.forEach((declarator) => {
-      evaluateVariable(context, declarator, finishMessage);
+      checkVariable(context, declarator, finishMessage);
     });
   }
 };
@@ -21,10 +21,10 @@ export default function (context) {
     const declaration = exportNode.declaration;
 
     if (declaration) {
-      const evaluate = evaluators[declaration.type];
+      const check = checkers[declaration.type];
 
-      if (evaluate) {
-        evaluate(context, exportNode.declaration, exported);
+      if (check) {
+        check(context, exportNode.declaration, exported);
       }
     }
   };

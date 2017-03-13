@@ -17,6 +17,22 @@ export default {
       ]
     },
     {
+      code: 'export const foo = 2',
+      errors: [
+        {
+          message: 'Missing "foo" type annotation on export.'
+        }
+      ]
+    },
+    {
+      code: 'export let foo: number = 3, bar = \'baz\'',
+      errors: [
+        {
+          message: 'Missing "bar" type annotation on export.'
+        }
+      ]
+    },
+    {
       code: 'export function foo (n, s) { return n * 2 }',
       errors: [
         {
@@ -97,6 +113,9 @@ export default {
     },
     {
       code: 'export let foo: number = 2'
+    },
+    {
+      code: 'export let foo: number = 3, bar: string = \'baz\''
     },
     {
       code: 'function foo (n, v) { return n * 2 }'

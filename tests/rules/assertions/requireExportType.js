@@ -25,6 +25,14 @@ export default {
       ]
     },
     {
+      code: 'export default foo(5)',
+      errors: [
+        {
+          message: 'Missing type annotation on export.'
+        }
+      ]
+    },
+    {
       code: 'export function foo (n, s) { return n * 2 }',
       errors: [
         {
@@ -147,6 +155,9 @@ export default {
     },
     {
       code: 'export let foo: number = 2'
+    },
+    {
+      code: 'export default (foo(5) : number)'
     },
     {
       code: 'export let foo: number = 3, bar: string = \'baz\''

@@ -26,6 +26,11 @@ export default function (context) {
 
       if (check) {
         check(context, exportNode.declaration, exported);
+      } else if (declaration && !declaration.typeAnnotation) {
+        context.report({
+          message: exported('Missing type annotation'),
+          node: declaration
+        });
       }
     }
   };

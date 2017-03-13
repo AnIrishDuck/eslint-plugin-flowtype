@@ -120,6 +120,14 @@ export default {
           message: 'Missing type annotation on default export.'
         }
       ]
+    },
+    {
+      code: 'export default (abc: number) => abc * 20',
+      errors: [
+        {
+          message: 'Missing return type annotation on export.'
+        }
+      ]
     }
   ],
   valid: [
@@ -157,6 +165,9 @@ export default {
     },
     {
       code: 'export default (20: number)'
+    },
+    {
+      code: 'export default (abc: number): number => abc * 20'
     }
   ]
 };

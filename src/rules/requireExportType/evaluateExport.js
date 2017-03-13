@@ -7,6 +7,7 @@ const exported = (prefix) => {
 };
 
 const checkers = {
+  ArrowFunctionExpression: checkFunction,
   FunctionDeclaration: checkFunction,
   Literal: checkLiteral,
   VariableDeclaration: (context, node, finishMessage) => {

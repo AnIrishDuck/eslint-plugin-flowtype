@@ -170,6 +170,9 @@ export default {
       code: 'export let foo: number = 2'
     },
     {
+      code: 'export let { foo, bar } = (object: Typed)'
+    },
+    {
       code: 'export default (foo(5) : number)'
     },
     {

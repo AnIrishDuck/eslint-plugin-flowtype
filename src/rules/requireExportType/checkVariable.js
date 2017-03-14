@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
     quoteName
 } from './../../utilities';
@@ -12,11 +11,12 @@ const checkInitializer = {
 };
 
 export default function (context, variableDeclarator, finishMessage) {
-  const identifierNode = _.get(variableDeclarator, 'id');
+  const identifierNode = variableDeclarator.id;
 
-  const typeAnnotation = _.get(identifierNode, 'typeAnnotation');
+  const leftTypeAnnotation = identifierNode.typeAnnotation;
+  const rightTypeAnnotation = variableDeclarator.init && variableDeclarator.init.typeAnnotation;
 
-  if (typeAnnotation) {
+  if (leftTypeAnnotation || rightTypeAnnotation) {
     return true;
   } else {
     const initNodeType = variableDeclarator.init ? variableDeclarator.init.type : null;

@@ -3,8 +3,20 @@ import {quoteName} from './../../utilities';
 import checkFunction from './checkFunction';
 import checkVariable from './checkVariable';
 
-const isExport = (node) => {
-  return node.type === 'ExportNamedDeclaration';
+const getLocalNames = (node) => {
+  if (node.type === 'ExportNamedDeclaration') {
+    return node.specifiers.map((specifier) => {
+      return [specifier.local.name, specifier];
+    });
+  } else if (node.type === 'ExportDefaultDeclaration') {
+    if (node.declaration.type === 'Identifier') {
+      return [[node.declaration.name, node.declaration]];
+    } else {
+      return [];
+    }
+  } else {
+    return [];
+  }
 };
 
 const requiredBelow = (prefix) => {
@@ -14,7 +26,7 @@ const requiredBelow = (prefix) => {
 const reportExport = function (context, specifier, priorLine) {
   context.report({
     data: {
-      name: quoteName(specifier.local.name),
+      name: quoteName(specifier.name || specifier.local.name),
       priorLine
     },
     message: 'Missing or incomplete type annotation on prior {{name}}declaration at line {{priorLine}}.',
@@ -24,12 +36,7 @@ const reportExport = function (context, specifier, priorLine) {
 
 export default function (context) {
   return (programNode) => {
-    const exportNodes = programNode.body.filter(isExport);
-    const nodePairs = exportNodes.map((node) => {
-      return node.specifiers.map((specifier) => {
-        return [specifier.local.name, specifier];
-      });
-    });
+    const nodePairs = programNode.body.map(getLocalNames);
     const exportMap = new Map(_.flatten(nodePairs));
 
     programNode.body.forEach((node) => {

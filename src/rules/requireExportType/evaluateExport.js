@@ -9,7 +9,6 @@ const ignore = () => {};
 
 const checkers = {
   ArrowFunctionExpression: checkFunction,
-  // TODO - classes are a more complex case, but we'll get there
   ClassDeclaration: ignore,
   FunctionDeclaration: checkFunction,
   Identifier: ignore,

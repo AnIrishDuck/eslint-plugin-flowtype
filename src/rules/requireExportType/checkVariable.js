@@ -2,12 +2,11 @@ import {
     quoteName
 } from './../../utilities';
 import checkFunction from './checkFunction';
-import checkLiteral from './checkLiteral';
 
 const checkInitializer = {
   ArrowFunctionExpression: checkFunction,
   FunctionDeclaration: checkFunction,
-  Literal: checkLiteral
+  Literal: () => { return true; }
 };
 
 export default function (context, variableDeclarator, finishMessage) {

@@ -1,5 +1,4 @@
 import checkFunction from './checkFunction';
-import checkLiteral from './checkLiteral';
 import checkVariable from './checkVariable';
 
 const exported = (prefix) => {
@@ -15,7 +14,7 @@ const checkers = {
   FunctionDeclaration: checkFunction,
   Identifier: ignore,
   InterfaceDeclaration: ignore,
-  Literal: checkLiteral,
+  Literal: ignore,
   TypeAlias: ignore,
   VariableDeclaration: (context, node, finishMessage) => {
     node.declarations.forEach((declarator) => {

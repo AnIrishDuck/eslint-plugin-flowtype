@@ -1,26 +1,26 @@
 export default {
   invalid: [
     {
-      code: 'export let foo = 2',
+      code: 'export let foo = f(2)',
       errors: [
         {
-          message: 'Missing type annotation on export.'
+          message: 'Missing "foo" type annotation on export.'
         }
       ]
     },
     {
-      code: 'export const foo = 2',
+      code: 'export const foo = bar(2)',
       errors: [
         {
-          message: 'Missing type annotation on export.'
+          message: 'Missing "foo" type annotation on export.'
         }
       ]
     },
     {
-      code: 'export let foo: number = 3, bar = \'baz\'',
+      code: 'export let foo: number = 3, bar = f(\'baz\')',
       errors: [
         {
-          message: 'Missing type annotation on export.'
+          message: 'Missing "bar" type annotation on export.'
         }
       ]
     },
@@ -71,11 +71,11 @@ export default {
       ]
     },
     {
-      code: 'let foo = 10\nexport { foo }',
+      code: 'let foo = (20 + 30)\nexport { foo }',
       errors: [
         {
           line: 1,
-          message: 'Missing type annotation, required by export below.'
+          message: 'Missing "foo" type annotation, required by export below.'
         },
         {
           line: 2,
@@ -84,11 +84,11 @@ export default {
       ]
     },
     {
-      code: 'let foo = 10\nexport default foo',
+      code: 'let foo = bar(\'baz\')\nexport default foo',
       errors: [
         {
           line: 1,
-          message: 'Missing type annotation, required by export below.'
+          message: 'Missing "foo" type annotation, required by export below.'
         },
         {
           line: 2,
@@ -97,11 +97,11 @@ export default {
       ]
     },
     {
-      code: 'let foo = 10\nexport { foo as baz }',
+      code: 'let foo = f(20)\nexport { foo as baz }',
       errors: [
         {
           line: 1,
-          message: 'Missing type annotation, required by export below.'
+          message: 'Missing "foo" type annotation, required by export below.'
         },
         {
           line: 2,
@@ -123,14 +123,6 @@ export default {
         {
           line: 3,
           message: 'Missing or incomplete type annotation on prior "foo" declaration at line 1.'
-        }
-      ]
-    },
-    {
-      code: 'export default 20',
-      errors: [
-        {
-          message: 'Missing type annotation on export.'
         }
       ]
     },
@@ -167,7 +159,13 @@ export default {
       code: 'export let foo: (number) => number = (bar) => bar * 2'
     },
     {
-      code: 'export let foo: number = 2'
+      code: 'export let foo: number = (20 + 30)'
+    },
+    {
+      code: 'export let foo = 2\nexport let bar = \'abc\''
+    },
+    {
+      code: 'export let foo = (bar(2): number)'
     },
     {
       code: 'export let { foo, bar } = (object: Typed)'
@@ -190,10 +188,13 @@ export default {
       ]
     },
     {
-      code: 'let foo: number = 10\nlet bar = 20\nexport { foo }'
+      code: 'let foo = \'abc\'\nlet bar = 20\nexport { foo }'
     },
     {
-      code: 'let foo: number = 10\nlet bar = 20\nexport default foo'
+      code: 'let foo: number = f(20)\nlet bar = 20\nexport { foo }'
+    },
+    {
+      code: 'let foo: number = f(10)\nlet bar = 20\nexport default foo'
     },
     {
       code: 'let foo = 2\nexport default (foo: number)'
@@ -202,7 +203,7 @@ export default {
       code: 'function foo (n: number): number { return n * 2 }\nlet bar = 10\nexport { foo }'
     },
     {
-      code: 'export default (20: number)'
+      code: 'export default 20'
     },
     {
       code: 'export default (abc: number): number => abc * 20'

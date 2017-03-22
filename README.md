@@ -24,6 +24,7 @@
         * [`no-primitive-constructor-types`](#eslint-plugin-flowtype-rules-no-primitive-constructor-types)
         * [`no-weak-types`](#eslint-plugin-flowtype-rules-no-weak-types)
         * [`object-type-delimiter`](#eslint-plugin-flowtype-rules-object-type-delimiter)
+        * [`require-export-type`](#eslint-plugin-flowtype-rules-require-export-type)
         * [`require-parameter-type`](#eslint-plugin-flowtype-rules-require-parameter-type)
         * [`require-return-type`](#eslint-plugin-flowtype-rules-require-return-type)
         * [`require-valid-file-annotation`](#eslint-plugin-flowtype-rules-require-valid-file-annotation)
@@ -1272,6 +1273,135 @@ type Foo = { a: Foo, b: Bar }
 ```
 
 
+<a name="eslint-plugin-flowtype-rules-require-export-type"></a>
+### <code>require-export-type</code>
+
+Requires that all exports have type annotations. This also means all exported
+functions must have both parameter and return type annotations.
+
+The following patterns are considered problems:
+
+```js
+// Message: 'Missing "foo" type annotation on export.'
+export let foo = f(2)
+
+// Message: 'Missing "foo" type annotation on export.'
+export const foo = bar(2)
+
+// Message: 'Missing "bar" type annotation on export.'
+export let foo: number = 3, bar = f('baz')
+
+// Message: 'Missing type annotation on export.'
+export default foo(5)
+
+// Messages:
+// 'Missing return type annotation on export.'
+// 'Missing "n" parameter type annotation on export.'
+// 'Missing "s" parameter type annotation on export.'
+export function foo (n, s) { return n * 2 }
+
+// Message: 'Missing "n" parameter type annotation on export.'
+export function foo (n, v: string): number { return n * 2 }
+
+// Message: 'Missing "n" parameter type annotation on export.'
+export default function foo (n, v: string): number { return n * 2 }
+
+// Message: 'Missing return type annotation on export.'
+export function foo (n: number) { return n * 2 }
+
+// Message: 'Missing "foo" type annotation, required by export below.'
+let foo = (20 + 30)
+// Message: 'Missing or incomplete type annotation on prior "foo" declaration at line 1.'
+export { foo }
+
+// Message: 'Missing "foo" type annotation, required by export below.'
+let foo = bar('baz')
+// Message: 'Missing or incomplete type annotation on prior "foo" declaration at line 1.'
+export default foo
+
+// Message: 'Missing "foo" type annotation, required by export below.'
+let foo = f(20)
+// Message: 'Missing or incomplete type annotation on prior "foo" declaration at line 1.'
+export { foo as baz }
+
+// Messages:
+// 'Missing return type annotation, required by export below.'
+// 'Missing "n" parameter type annotation, required by export below.'
+function foo (n) { return n * 2 }
+// Message: 'Missing or incomplete type annotation on prior "foo" declaration at line 1.'
+export { foo }
+
+// Message: 'Missing return type annotation on export.'
+export default (abc: number) => abc * 20
+
+// Message: 'Missing "n" parameter type annotation, required by export below.'
+let foo = (n): number => n * 2
+// Message: 'Missing or incomplete type annotation on prior "foo" declaration at line 1.'
+export { foo }
+
+```
+
+The following patterns are considered valid:
+
+```
+export * from './test'
+
+export { foo, bar } from './test'
+
+export let foo: (number) => number = (bar) => bar * 2
+
+export let foo: number = (20 + 30)
+
+export let foo = 2
+
+export let bar = 'abc'
+
+export let foo = (bar(2): number)
+
+export let { foo, bar } = (object: Typed)
+
+export default (foo(5) : number)
+
+export let foo: number = 3, bar: string = 'baz'
+
+function foo (n, v) { return n * 2 }
+
+function foo (_n): number { return n * 2 }
+
+let foo = 'abc'
+let bar = 20
+export { foo }
+
+let foo: number = f(20)
+let bar = 20
+export { foo }
+
+let foo: number = f(10)
+let bar = 20
+export default foo
+
+let foo = 2
+export default (foo: number)
+
+function foo (n: number): number { return n * 2 }
+let bar = 10
+export { foo }
+
+export default 20
+
+export default (abc: number): number => abc * 20
+
+export let testing = (abc: number): number => abc * 20
+
+export default class Testing { }
+
+export interface Foo { bar: number }
+
+export type Foo = { bar: number }
+
+export type Foo = Bar
+
+```
 
 <a name="eslint-plugin-flowtype-rules-require-parameter-type"></a>
 ### <code>require-parameter-type</code>
